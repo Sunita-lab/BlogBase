@@ -1,14 +1,20 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
-dotenv.config(); // .env file load karo
+dotenv.config();
 
 const app = express();
 
 // Middleware
-app.use(cors());           // React ko allow karo
-app.use(express.json());   // JSON body parse karo
+app.use(cors());
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB Atlas se connected! 🟢'))
+  .catch((err) => console.log('Connection error:', err));
 
 // Test route
 app.get('/', (req, res) => {
