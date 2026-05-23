@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+
 dotenv.config();
 
 const app = express();
@@ -15,6 +16,9 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Atlas se connected! 🟢'))
   .catch((err) => console.log('Connection error:', err));
+// Routes
+const blogRoutes = require('./routes/blogRoutes');
+app.use('/api/blogs', blogRoutes);  
 
 // Test route
 app.get('/', (req, res) => {
