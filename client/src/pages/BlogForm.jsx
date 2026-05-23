@@ -8,19 +8,11 @@ function BlogForm() {
   const isEdit = Boolean(id)
 
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    author: '',
-    tags: '',
-    published: false
+    title: '', content: '', author: '', tags: '', published: false
   })
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (isEdit) {
-      fetchBlog()
-    }
-  }, [id])
+  useEffect(() => { if (isEdit) fetchBlog() }, [id])
 
   const fetchBlog = async () => {
     try {
@@ -34,16 +26,13 @@ function BlogForm() {
         published: blog.published
       })
     } catch (err) {
-      console.error('Blog fetch nahi hua:', err)
+      console.error('Fetch failed:', err)
     }
   }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
+    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
   }
 
   const handleSubmit = async (e) => {
@@ -61,71 +50,72 @@ function BlogForm() {
       }
       navigate('/')
     } catch (err) {
-      console.error('Save nahi hua:', err)
+      console.error('Save failed:', err)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div style={{ maxWidth: '600px', margin: '40px auto', padding: '0 20px' }}>
-      <h1>{isEdit ? 'Blog Edit Karo' : 'Naya Blog Banao'}</h1>
-      <div style={{ background: 'white', padding: '24px', borderRadius: '8px', marginTop: '20px' }}>
-        <div style={{ marginBottom: '16px' }}>
-          <label>Title</label><br />
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
-          />
-        </div>
-        <div style={{ marginBottom: '16px' }}>
-          <label>Author</label><br />
-          <input
-            name="author"
-            value={formData.author}
-            onChange={handleChange}
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
-          />
-        </div>
-        <div style={{ marginBottom: '16px' }}>
-          <label>Content</label><br />
+    <div style={{ maxWidth: '680px', margin: '0 auto', padding: '48px 24px' }}>
+      <button onClick={() => navigate('/')}
+        style={{ background: 'var(--primary-light)', color: 'var(--primary)', marginBottom: '24px' }}>
+        ← Back
+      </button>
+      <h1 style={{ fontFamily: 'Playfair Display', fontSize: '36px', color: 'var(--primary)', marginBottom: '28px' }}>
+        {isEdit ? 'Edit Blog' : 'Create New Blog'}
+      </h1>
+
+      <div style={{ background: 'white', borderRadius: 'var(--radius)', padding: '32px', boxShadow: 'var(--shadow)' }}>
+        {[
+          { label: 'Title', name: 'title', type: 'input', placeholder: 'Enter blog title...' },
+          { label: 'Author', name: 'author', type: 'input', placeholder: 'Your name...' },
+          { label: 'Tags (comma separated)', name: 'tags', type: 'input', placeholder: 'mern, react, mongodb...' },
+        ].map(field => (
+          <div key={field.name} style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', marginBottom: '6px' }}>{field.label}</label>
+            <input
+              name={field.name}
+              value={formData[field.name]}
+              onChange={handleChange}
+              placeholder={field.placeholder}
+            />
+          </div>
+        ))}
+
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ display: 'block', marginBottom: '6px' }}>Content</label>
           <textarea
             name="content"
             value={formData.content}
             onChange={handleChange}
-            rows={6}
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
+            rows={8}
+            placeholder="Write your blog content here..."
           />
         </div>
-        <div style={{ marginBottom: '16px' }}>
-          <label>Tags (comma se alag karo)</label><br />
+
+        <div style={{ marginBottom: '28px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <input
-            name="tags"
-            value={formData.tags}
+            type="checkbox"
+            name="published"
+            checked={formData.published}
             onChange={handleChange}
-            placeholder="mern, mongodb, react"
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
+            style={{ width: '18px', height: '18px', accentColor: 'var(--primary)' }}
           />
-        </div>
-        <div style={{ marginBottom: '16px' }}>
-          <label>
-            <input
-              type="checkbox"
-              name="published"
-              checked={formData.published}
-              onChange={handleChange}
-              style={{ marginRight: '8px' }}
-            />
-            Published
+          <label style={{ textTransform: 'none', fontSize: '15px', color: 'var(--text)' }}>
+            Publish this blog
           </label>
         </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button onClick={handleSubmit} disabled={loading}>
-            {loading ? 'Saving...' : isEdit ? 'Update Karo' : 'Create Karo'}
+
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button onClick={handleSubmit} disabled={loading}
+            style={{ background: 'var(--primary)', color: 'white', padding: '12px 28px' }}>
+            {loading ? 'Saving...' : isEdit ? 'Update Blog' : 'Create Blog'}
           </button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button onClick={() => navigate('/')}
+            style={{ background: 'var(--primary-light)', color: 'var(--primary)' }}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
