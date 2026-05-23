@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
+import BlogList from './pages/BlogList'
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Routes yahan aayenge */}
+        <Route path="/" element={<BlogList />} />
       </Routes>
     </BrowserRouter>
   )
