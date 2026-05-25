@@ -48,7 +48,7 @@ function BlogForm() {
       } else {
         await api.post('/blogs', payload)
       }
-      navigate('/')
+      navigate('/blogs')
     } catch (err) {
       console.error('Save failed:', err)
     } finally {
@@ -58,7 +58,7 @@ function BlogForm() {
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '48px 24px' }}>
-      <button onClick={() => navigate('/')}
+      <button onClick={() => navigate('/blogs')}
         style={{ background: 'var(--primary-light)', color: 'var(--primary)', marginBottom: '24px' }}>
         ← Back
       </button>

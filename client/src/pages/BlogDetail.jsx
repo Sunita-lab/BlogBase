@@ -25,7 +25,7 @@ function BlogDetail() {
     if (!window.confirm('Are you sure you want to delete this blog?')) return
     try {
       await api.delete(`/blogs/${id}`)
-      navigate('/')
+      navigate('/blogs')
     } catch (err) {
       console.error('Delete failed:', err)
     }
@@ -36,7 +36,7 @@ function BlogDetail() {
 
   return (
     <div style={{ maxWidth: '780px', margin: '0 auto', padding: '48px 24px' }}>
-      <button onClick={() => navigate('/')}
+      <button onClick={() => navigate('/blogs')}
         style={{ background: 'var(--primary-light)', color: 'var(--primary)', marginBottom: '28px' }}>
         ← Back to Blogs
       </button>
